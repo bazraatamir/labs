@@ -1,266 +1,160 @@
-# The Two-Pointers Technique
+# Recursion, Tail Recursion, Divide & Conquer, Backtracking
 
-## 🔹 Тайлбар
+## 1. Recursion гэж юу вэ?
 
-**Two-Pointers Technique** нь өгөгдлийн бүтэц (массив, жагсаалт, string гэх мэт)-д **хоёр индекс (pointer)** ашиглан илүү үр дүнтэйгээр асуудлыг шийдэх арга юм.  
-Энэ нь O(n²) алгоритмыг O(n) хүртэл оновчтой болгох боломжтой.
+Recursion гэдэг нь **нэг функц өөрийгөө шууд эсвэл шууд бусаар дахин дуудах** программчлалын техник юм.
 
----
+### Гол ойлголт:
 
-## 🔹 Pointer гэж юу вэ?
+- **Base Case** → дахин дуудах хэрэггүй, termination нөхцөл.
+- **Recursive Case** → асуудлыг жижигрүүлэн өөрийгөө дахин дуудна.
+- Recursion нь **Stack (Call Stack)** дээр тулгуурладаг → function бүр өөрийн state-тайгаар стек дээр байрлана.
 
-Pointer буюу “заагч” нь массивын тодорхой байрлалыг заадаг хувьсагч юм.
+### Жишээ (Factorial):
 
 ```python
-arr = [2, 4, 6, 8, 10]
-left = 0
-right = len(arr) - 1
+def factorial(n):
+    if n == 0:            # Base Case
+        return 1
+    return n * factorial(n - 1)  # Recursive Case
 ```
 
----
+### Dry Run (n = 3):
 
-## 🔹 Two Pointers-ийн хэлбэрүүд
-
-| Төрөл                           | Тайлбар                                                    | Жишээ                     |
-| ------------------------------- | ---------------------------------------------------------- | ------------------------- |
-| Opposite Direction              | Нэг pointer эхлэлээс, нөгөө нь төгсгөлөөс дотогш хөдөлдөг. | Two Sum, Palindrome       |
-| Same Direction (Sliding Window) | Хоёр pointer ижил чиглэлд урагшилж “цонх”-ыг удирдана.     | Move Zeroes, Subarray Sum |
-
----
-
-## 🔹 Яагаад ашиглах вэ?
-
-- Цагийн нарийн төвөгтэй байдлыг багасгана
-- Subarray, substring, хосуудтай ажиллахад тохиромжтой
-- Sliding window, merge sort зэрэг алгоритмуудад зайлшгүй хэрэглэгддэг
+- factorial(3) → 3 × factorial(2)
+- factorial(2) → 2 × factorial(1)
+- factorial(1) → 1 × factorial(0)
+- factorial(0) → 1 ⬅ Base Case хүрлээ → буцаж эхэлнэ
+- Stack Unwind → 1 → 1×1 → 2×1 → 3×2 → **6**
 
 ---
 
-## 🧩 Easy Level — Суурь дасгалууд
+## 2. Tail Recursion гэж юу вэ?
 
-### 1. Reverse String
+Tail Recursion гэдэг нь **функц өөрийгөө дуудаж байгаа тэр хэсэг нь function-ийн хамгийн сүүлийн үйлдэл байх** recursion-ын төрөл.
 
-Даалгавар
+### Яагаад онцгой гэж?
 
-Өгөгдсөн s жагсаалтыг оруулсан газарт нь (in-place) урвуулах.
-Шинэ жагсаалт үүсгэж болохгүй.
+- Tail recursion нь **stack дээр нэмэлт frame үүсгэхгүйгээр**, тухайн function-ий frame-ийг **reuse хийх** боломжтой тул **memory-efficient** байх ёстой.
+- **Гэхдээ Python tail call optimization хийдэггүй!** → энэ нь Python-д tail recursion ашиглавал **stack overflow** эрсдэлтэй.
+- Харин **C, Haskell, Scala** зэрэг хэлнүүд tail recursion-г автоматаар optimize хийдэг.
 
-```
-Input:  s = ["h","e","l","l","o"]
-Output: ["o","l","l","e","h"]
+### Жишээ (Tail Recursion version of factorial):
 
----
-Алгоритм — Two Pointers
-
-left = 0 (эхний индекс)
-right = len(s) - 1 (сүүлийн индекс)
-
-s[left] ба s[right]-г сольж өгнө.
-
-Дараа нь:
-
-left += 1
-
-right -= 1
-
-Хоёр pointer огтлолцтол давт.
-
-### 2. Move Zeroes
-**Даалгавар:** 0-уудыг төгсгөл рүү шилжүүл.
-
-Input:  nums = [0, 1, 0, 3, 12]
-Output: [1, 3, 12, 0, 0]
-
-Алгоритмын санаа
-
-Хоёр pointer ашиглана:
-
-slow → 0 биш элемент байрлуулах байрлалыг заана.
-
-fast → бүх элементүүдийг шалгахын тулд хөдөлнө.
-
-Хэрэв nums[fast] != 0 бол
-
-nums[slow] болон nums[fast]-ийг солино
-
-slow-г 1-р нэмнэ.
-
-Давталт дуусахад бүх 0-ууд автоматаар төгсгөл рүү очсон байна.
-
-### 3. Remove Duplicates from Sorted Array
-
-Даалгавар:
-Өсөх эрэмбэлэгдсэн массив дотор давхардсан элементүүдийг арилгаж, давхардалгүй урт буцаа.
-
-Input: arr = [1, 1, 2, 3, 3, 4]
-Output: 4   // unique elements = [1,2,3,4]
-
-arr = [1,1,2,3,3,4]
-left=0
-right=1 → давхардсан
-right=2 → 1!=2 → left=1, arr[1]=2
-right=3 → 2!=3 → left=2, arr[2]=3
-right=4 → 3==3 → skip
-right=5 → 3!=4 → left=3, arr[3]=4
-Result length = left+1 = 4
-
-
-## ⚙️ Medium Level — Алгоритм хөгжүүлэлт
-
-Two Sum in Sorted Array
-
-Даалгавар:
-Өгөгдсөн өсөх эрэмбэлэгдсэн массив дотор нийлбэр нь target болох хоёр элемент ол.
-
-Input: arr = [1, 2, 3, 4, 6], target = 6
-Output: [1, 3]   // arr[1] + arr[3] = 2 + 4 = 6
-
-
-Тайлбар:
-
-left → эхнээс, right → төгсгөлөөс эхэлнэ.
-
-Хэрэв arr[left] + arr[right] < target → left-г нэм.
-
-Хэрэв > байвал → right-г багасга.
-
-Хэрэв = бол → хариуг буцаа.
-
-Оролт / гаралт тоо:
-
-Оролт: массивын урт n
-
-Гаралт: 2 индекс буюу [i, j]
-
-
-### 5. Valid Palindrome (LeetCode #125)
-Бодлогын зорилго
-
-Өгөгдсөн s тэмдэгт мөрийг зөвхөн үсэг ба тоо (алфанумерик) гэж үзээд,
-том жижиг үсгийн ялгааг үл харгалзан palindrome мөн эсэхийг шалга.
-
-Input:  "A man, a plan, a canal: Panama"
-Output: True
-
-Input:  "race a car"
-Output: False
-Алгоритмын санаа (Two Pointers)
-
--Зөвхөн үсэг, тоо үлдээнэ → punctuation, space, тэмдэгтийг хасна.
-
--Том жижиг үсгийг ижил болгоно (lowercase).
-
--left болон right pointer ашиглана:
-
--Хэрэв s[left] != s[right] → palindrome биш.
-
--Хэрэв тэнцүү бол → left++, right--.
-
-Хоёр pointer огтлолцтол шалгана.
-
-### 6. Merge Two Sorted Arrays
-
-Даалгавар:
-Хоёр эрэмбэлэгдсэн массивыг нэг эрэмбэлэгдсэн массив болгон нэгтгэ.
-
-Input:
-A = [1, 3, 5]
-B = [2, 4, 6]
-Output: [1, 2, 3, 4, 5, 6]
-
-Тайлбар:
-
-i, j → A ба B массивын pointer.
-
-Хоёрын аль нь бага байна, тэрийг шинэ list рүү нэмнэ.
-
-Нэг массив дууссаны дараа үлдсэн элементийг нэмж дуусгана.
-
----
-
-## 🚀 Hard Level — Гүнзгий бодлогууд
-
-### 7. 3. 3Sum Problem (LeetCode #15)
-Бодлогын зорилго
-
-Өгөгдсөн nums массив дотроос нийлбэр нь 0 болох гурван ялгаатай элементүүдийн бүх хослолыг ол.
-Давхардсан гурвалсан хариу гаргахгүй байх ёстой.
-
-Input: nums = [-1, 0, 1, 2, -1, -4]
-Output: [[-1, -1, 2], [-1, 0, 1]]
-Алгоритмын санаа (Two-Pointers + Sorting)
-
-Массивыг sort хийнэ
-→ Давхардал хялбар шалгах, two-pointer ашиглах нөхцөл бүрдэнэ.
-
-Нэг хувьсагчийг “fixed” гэж үзнэ
-→ Үлдсэн хоёр элементийг “two sum” шиг хайна.
-Жишээ нь, nums[i] = a гэж тогтоовол бид b + c = -a олох ёстой.
-
-left, right pointer ашиглана:
-
-Хэрэв a + b + c == 0 → хослол хадгална
-
-Хэрэв нийлбэр < 0 → left-г нэм
-
-Хэрэв нийлбэр > 0 → right-г багасга
-
-Давхардал шалгах:
-
-Давтагдсан a, b, c утгыг алгасах
-
-### 8. Trapping Rain Water
-
-Даалгавар:
-Өндрийн массив өгөгдсөн. Бороо орсны дараа хэдэн нэгж ус хуримтлагдахыг ол.
-
-Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
-Output: 6
-
-
-Тайлбар (Two-Pointers):
-
-left, right → хоёр талаас явна.
-
-leftMax, rightMax → хоёр талын хамгийн өндөр хананы утгуудыг хадгална.
-
-Бага ханатай тал руу pointer хөдөлгөнө.
-
-Ус = min(leftMax, rightMax) - currentHeight.
-
-Алхамууд (товч):
-
-left=0,right=11,leftMax=0,rightMax=0
-
-left тал бага → left++ хийх бүрт ус тооцоолно
-
-Дундаа хүрэхэд нийт хуримтлагдсан ус = 6
----
-
-### 9. Container With Most Water
-
-Container With Most Water (LeetCode #11)
-🧠 Бодлогын тодорхойлолт
-
-Танд height нэртэй өндөрийн массив өгөгдсөн.
-Тэндхийн i ба j индексийн хоёр шугам ус хадгалах "сав"-ны хана болно.
-Хамгийн их хэмжээний ус хадгалах хоёр ханыг олж, хадгалах усны талбайг (max area) тооц.
+```python
+def factorial_tail(n, acc=1):
+    if n == 0:               # Base Case
+        return acc
+    return factorial_tail(n - 1, n * acc)  # Tail Call = last operation
 ```
 
-Input: height = [1,8,6,2,5,4,8,3,7]
-Output: 49
+### Энд юу онцгой вэ?
 
-Тайлбар
+- `return n * factorial(n - 1)` → **Tail биш** (return-ын дараа үржих процесс хүлээгдэж байгаа!)
+- `return factorial_tail(n - 1, n * acc)` → **Tail Call** ✅ (буцахдаах үйлдэл байхгүй)
 
-Усны талбай = min(height[left], height[right]) \* (right - left)
+---
 
-left ба right гэсэн хоёр pointer ашиглана:
+## 3. Divide & Conquer арга
 
-left → эхнээс, right → төгсгөлөөс эхэлнэ.
+Divide & Conquer (D&C) гэдэг нь **асуудлыг жижиг хэсгүүдэд хувааж, тус бүрийг шийдэж, дараа нь хариуг нэгтгэн шийдвэр гаргах** алгоритмын аргачлал юм.
 
-Өндөр багатай ханыг дотогш шилжүүлнэ (ингэж байж талбай томорч болно).
+### Гол алхамууд:
 
-Талбайг тооцоод хамгийн ихийг хадгална.
+1. **Divide** → Асуудлыг жижиг хэсгүүдэд хуваана.
+2. **Conquer** → Бүх хэсгийг recursive аргаар шийднэ.
+3. **Combine** → Шийдлийг нэгтгэн эцсийн хариуг гаргана.
+
+### Жишээ алгоритмууд:
+
+- Merge Sort
+- Quick Sort
+- Binary Search
+- Matrix Multiplication (Strassen)
+
+### Recurrence Relation:
+
+- Merge Sort: T(n) = 2\*T(n/2) + O(n)
+- Quick Sort (average case): T(n) = 2\*T(n/2) + O(n)
+- Quick Sort (worst case): T(n) = T(n-1) + O(n)
+
+### Master Theorem ашиглах:
+
+- T(n) = a\*T(n/b) + f(n)
+- Merge Sort → a=2, b=2, f(n)=n → O(n log n)
+- Quick Sort → worst case → O(n^2), average case → O(n log n)
+
+---
+
+## 4. Backtracking арга
+
+Backtracking гэдэг нь **бүх боломжит шийдлийг судалж, шийдэл олдохгүй бол буцаж өмнөх state руу эргэж орох** алгоритмын арга юм.
+
+### Гол ойлголт:
+
+- **State Space Tree** → бүх боломжит шийдлийг модон хэлбэрээр дүрсэлнэ.
+- **Decision / Choice** → тухайн түвшинд хийх боломжит алхмууд.
+- **Constraint** → зөв шийдлийг хадгалах нөхцөл.
+- **Backtrack** → Constraint зөрчсөн тохиолдолд өмнөх түвшинд эргэн очно.
+
+### Жишээ (N-Queens):
+
+```python
+N = 4
+def print_board(board):
+    for row in board:
+        print(" ".join(row))
+    print()
+
+def is_safe(board, row, col):
+    for i in range(row):
+        if board[i][col] == 'Q':
+            return False
+    for i,j in zip(range(row-1,-1,-1), range(col-1,-1,-1)):
+        if board[i][j] == 'Q':
+            return False
+    for i,j in zip(range(row-1,-1,-1), range(col+1,N)):
+        if board[i][j] == 'Q':
+            return False
+    return True
+
+def solve(board, row=0):
+    if row == N:
+        print_board(board)
+        return
+    for col in range(N):
+        if is_safe(board, row, col):
+            board[row][col] = 'Q'
+            solve(board, row+1)
+            board[row][col] = '.'  # Backtrack
+
+board = [['.' for _ in range(N)] for _ in range(N)]
+solve(board)
+```
+
+### Онолын тайлбар:
+
+- Function нь **row-уудаар давталт** хийж, бүх багана дээр Queen байрлуулна.
+- Хэрэв **Constraint зөрчвөл** буцааж өмнөх cell рүү эргэн очно.
+- Энэ нь **decision tree-г exhaustive search** аргаар судалж байгаа жишээ юм.
+
+### Big-O тайлбар:
+
+- N-Queens-ийн хамгийн муу case → O(N!)
+- Constraint хэрэгжих тусам search space багасна.
+
+---
+
+## Дүгнэлт
+
+| Арга             | Онцлог                         | Жишээ                  | Big-O               |
+| ---------------- | ------------------------------ | ---------------------- | ------------------- |
+| Recursion        | Функц өөрийгөө дуудах          | Factorial, Fibonacci   | O(n) / O(2^n)       |
+| Tail Recursion   | Last operation recursive       | Factorial Tail         | O(n)                |
+| Divide & Conquer | Divide → Conquer → Combine     | Merge Sort, Quick Sort | O(n log n) / O(n^2) |
+| Backtracking     | State space tree + constraints | N-Queens, Sudoku       | O(N!) / variable    |
+
+Энэхүү хичээл нь **их сургууль / экзаменд бэлдэх түвшний онол + Python жишээ + Big-O analysis**-г хамарсан академик бүтэц юм.
 
 ## Recursion, Tail Recursion, Divide & Conquer, Backtracking
 
