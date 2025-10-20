@@ -239,52 +239,51 @@ print(factorial(5))
 - **Даалгавар:** Өгөгдсөн list дахь factorial-уудын нийлбэрийг recursion ашиглан олох.
 - **Оролт:** [3, 4, 5]
 
-```
-
-* **Гаралт:** 3!+4!+5! = 6+24+120 = 150
+- **Гаралт:** 3!+4!+5! = 6+24+120 = 150
 
 #### Дасгал 2: Recursive string reverse
 
-* Өгөгдсөн string-г recursion ашиглан эргүүл.
-* **Оролт:** 'Algorithm'
-* **Гаралт:** 'mhtiroglA'
+- Өгөгдсөн string-г recursion ашиглан эргүүл.
+- **Оролт:** 'Algorithm'
+- **Гаралт:** 'mhtiroglA'
 
 ### 2. Tail Recursion (Advanced)
 
 #### Дасгал: Tail Fibonacci
 
-* **Даалгавар:** Tail recursion ашиглан n-р Fibonacci утгыг ол. n=10
+- **Даалгавар:** Tail recursion ашиглан n-р Fibonacci утгыг ол. n=10
 
-
-* **Гаралт:** 55
+- **Гаралт:** 55
 
 ### 3. Divide & Conquer (Advanced)
 
 #### Дасгал 1: Merge k sorted arrays
 
-* **Даалгавар:** k=3 sorted arrays-ийг нэг array болгон merge хийх.
-* **Оролт:** [[1,4,7],[2,5,8],[3,6,9]]
+- **Даалгавар:** k=3 sorted arrays-ийг нэг array болгон merge хийх.
+- **Оролт:** [[1,4,7],[2,5,8],[3,6,9]]
 
-* **Гаралт:** [1,2,3,4,5,6,7,8,9]
+- **Гаралт:** [1,2,3,4,5,6,7,8,9]
 
 #### Дасгал 2: Quick Sort with median pivot
 
-* Өгөгдсөн массивыг Quick Sort ашиглан median pivot-оор эрэмбэл.
+- Өгөгдсөн массивыг Quick Sort ашиглан median pivot-оор эрэмбэл.
 
 ### 4. Backtracking (Advanced)
 
 #### Дасгал 1: N-Queens, N=8
 
-* **Даалгавар:** 8x8 самбар дээр бүх шийдлийг ол.
+- **Даалгавар:** 8x8 самбар дээр бүх шийдлийг ол.
 
 #### Дасгал 2: Sudoku Solver 9x9
 
-* **Даалгавар:** 9x9 sudoku-г backtracking ашиглан шийд.
+- **Даалгавар:** 9x9 sudoku-г backtracking ашиглан шийд.
 
 #### Дасгал 3: Word Search Problem
 
-* **Даалгавар:** Өгөгдсөн 2D grid-д string-г backtracking ашиглан хайж, байгаа эсэхийг шалгах.
-* **Оролт:** Grid = [['A','B','C'],['D','E','F'],['G','H','I']], word='BEF'
-* **Гаралт:** True
+- **Даалгавар:** Өгөгдсөн 2D grid-д string-г backtracking ашиглан хайж, байгаа эсэхийг шалгах.
+- **Оролт:** Grid = [['A','B','C'],['D','E','F'],['G','H','I']], word='BEF'
+- **Гаралт:** True
+
+```
 
 ```
