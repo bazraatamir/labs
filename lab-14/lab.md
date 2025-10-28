@@ -4,6 +4,7 @@
 
 ## 1. Fibonacci Sequence
 
+n дахь Фибоначчийн тоог ол.
 **Сонголт:** Top-Down эсвэл Bottom-Up (хоёул сайн)
 **Тайлбар:** 1D, бага state → bottom-up илүү хялбар, top-down логик ойлгомжтой. Space optimize: O(1)
 
@@ -21,6 +22,9 @@ The 10th Fibonacci number is 55.
 ---
 
 ## 2. Climbing Stairs
+
+Нэг удаад 1 эсвэл 2 шат өгсөж чадна. n шаттай байшин руу хэдэн янзаар гарч болох
+вэ?
 
 **Сонголт:** Bottom-Up эсвэл Top-Down
 **Тайлбар:** 1D dp, bottom-up илүү хурдан, top-down цэвэр логик. Space O(1)
@@ -40,6 +44,8 @@ Explanation:
 
 ## 3. Min Cost Climbing Stairs
 
+Шат бүр тодорхой зардалтай. Дээд шатанд хүрэх хамгийн бага нийт зардлыг ол.
+
 **Сонголт:** Bottom-Up илүү түгээмэл
 **Тайлбар:** dp[i] = cost[i] + min(dp[i-1], dp[i-2]). Space O(1)
 
@@ -56,6 +62,9 @@ Minimum cost to reach top: min(10+20, 15) = 15
 ---
 
 ## 4. House Robber
+
+Хэрвээ хажуугийн 2 байшинг зэрэг дээрэмдэх боломжгүй бол хамгийн их мөнгө
+хулгайлах арга.
 
 **Сонголт:** Bottom-Up давамгай
 **Тайлбар:** simple 1D recurrence (exclude/include). Space O(1)
@@ -74,6 +83,9 @@ Rob houses 1, 3, 5 → 2 + 9 + 1 = 12
 
 ## 5. Unique Paths (m x n)
 
+m x n хэмжээтэй хүснэгтэд зүүн дээдээс баруун доод буланд хүрэх замын тоог ол
+(зөвхөн доош, баруун тийш алхаж болно).
+
 **Сонголт:** Bottom-Up түгээмэл
 **Тайлбар:** dp[i][j] = dp[i-1][j] + dp[i][j-1]. Space optimize: 1D row O(n)
 
@@ -90,6 +102,9 @@ Explanation:
 ---
 
 ## 6. Coin Change Problem (min coins)
+
+Өгөгдсөн зоосны утгууд ашиглан тодорхой мөнгөний дүнг гаргах хамгийн бага
+зоосны тоог ол.
 
 **Сонголт:** Bottom-Up түгээмэл
 **Тайлбар:** dp[amount] = min(dp[amount], dp[amount-coin]+1)
@@ -108,6 +123,9 @@ Explanation:
 
 ## 7. Partition Equal Subset Sum
 
+Өгөгдсөн тоонуудаас нийлбэр нь яг тал хувийн тэнцүү болох 2 бүлэг үүсгэж болох
+уу?
+
 **Сонголт:** Bottom-Up хэвийн
 **Тайлбар:** subset sum → boolean dp, 1D bitset оптимизац сайхан
 
@@ -125,6 +143,8 @@ Can partition into [1, 5, 5] and [11] (both sum = 11)
 
 ## 8. Maximum Subarray Sum (Kadane’s Algorithm)
 
+Нэг хэмжээст массиваас хамгийн их нийлбэртэй дэд массиваа ол.
+
 **Сонголт:** Neither classic DP forms — Kadane (iterative) хамгийн сайн
 **Тайлбар:** Шууд O(n) итератив
 
@@ -141,6 +161,8 @@ Subarray [4,-1,2,1] has maximum sum = 6
 ---
 
 ## 9. Subset Sum Count
+
+Өгөгдсөн массивын дундаас нийлбэр нь X болох хэдэн дэд бүлэг байгааг тоол.
 
 **Сонголт:** Bottom-Up түгээмэл (1D possible)
 **Тайлбар:** count of subsets → dp[sum] update (reverse loop) эсвэл 2D
